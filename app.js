@@ -269,61 +269,12 @@ document.addEventListener('visibilitychange', () => {
 });
 setInterval(refreshIfNewDay, 60 * 1000);
 
-// ---- Theme -----------------------------------------------------------------
-// No saved choice = follow the system. The button flips to the opposite of
-// whatever is showing now and remembers that choice.
-
-const THEME_KEY = 'habit-tracker:theme';
-const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-const themeBtn = document.getElementById('theme-toggle');
-
-function savedTheme() {
-  try {
-    const t = localStorage.getItem(THEME_KEY);
-    return t === 'light' || t === 'dark' ? t : null;
-  } catch {
-    return null;
-  }
-}
-
-function effectiveTheme() {
-  return savedTheme() || (darkQuery.matches ? 'dark' : 'light');
-}
-
-function applyTheme() {
-  const saved = savedTheme();
-  if (saved) document.documentElement.dataset.theme = saved;
-  else delete document.documentElement.dataset.theme;
-
-  const dark = effectiveTheme() === 'dark';
-  themeBtn.textContent = dark ? '☀️ Light' : '🌙 Dark';
-  themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
-}
-
-themeBtn.addEventListener('click', () => {
-  const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
-  try {
-    localStorage.setItem(THEME_KEY, next);
-  } catch {
-    // Storage blocked: still switch for this visit.
-    document.documentElement.dataset.theme = next;
-    themeBtn.textContent = next === 'dark' ? '☀️ Light' : '🌙 Dark';
-    return;
-  }
-  applyTheme();
-});
-
-darkQuery.addEventListener('change', applyTheme);
-
 // Stay in sync when the app is open in more than one tab.
 window.addEventListener('storage', (e) => {
   if (e.key === STORAGE_KEY) {
     state = loadState();
     render();
-  } else if (e.key === THEME_KEY) {
-    applyTheme();
   }
 });
 
-applyTheme();
 render();

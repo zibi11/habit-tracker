@@ -7,8 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Single-page habit tracker in plain HTML/CSS/JS: no frameworks, no build step, no dependencies. Keep it that way unless the user asks otherwise.
 
 - `index.html`: markup plus a `<template id="habit-template">` that `app.js` clones for each habit.
-- `styles.css`: color tokens on `:root`. The dark palette is defined twice and both copies must stay in sync: once under `prefers-color-scheme: dark` guarded by `:root:not([data-theme="light"])`, and once as `:root[data-theme="dark"]`.
-- Theme: `localStorage['habit-tracker:theme']` is `light`, `dark`, or unset (follow the system). A small inline script in `<head>` sets `data-theme` before first paint so the page doesn't flash, and the toggle logic is in the Theme section of `app.js`.
+- `styles.css`: color tokens on `:root`, overridden in a `prefers-color-scheme: dark` block. Dark mode follows the system only. There is deliberately no manual toggle: one was added and then removed at the user's request.
 - `app.js`: all logic, a plain (non-module) script, so its top-level functions are reachable from the browser console for testing.
 
 ## Running

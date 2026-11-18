@@ -4,23 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Habit Tracker</title>
-  <script>
-    // Apply a saved theme before first paint so the page doesn't flash.
-    try {
-      var t = localStorage.getItem('habit-tracker:theme');
-      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-    } catch (e) {}
-  </script>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="app">
     <header class="app-header">
-      <div>
-        <h1>Habits</h1>
-        <p id="today-label" class="today-label"></p>
-      </div>
-      <button type="button" id="theme-toggle" class="theme-toggle"></button>
+      <h1>Habits</h1>
+      <p id="today-label" class="today-label"></p>
     </header>
 
     <p id="storage-warning" class="notice" hidden>
