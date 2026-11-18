@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Habit Tracker</title>
+  <script>
+    // Apply a saved theme before first paint so the page doesn't flash.
+    try {
+      var t = localStorage.getItem('habit-tracker:theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app">
+    <header class="app-header">
+      <div>
+        <h1>Habits</h1>
+        <p id="today-label" class="today-label"></p>
+      </div>
+      <button type="button" id="theme-toggle" class="theme-toggle"></button>
+    </header>
+
+    <p id="storage-warning" class="notice" hidden>
+      Your browser is blocking storage, so habits won't be saved after you close this page.
+    </p>
+
+    <form id="add-form" class="add-form" autocomplete="off">
+      <label for="habit-name" class="visually-hidden">New habit</label>
+      <input id="habit-name" name="name" type="text" placeholder="Add a habit, e.g. Read 10 pages" maxlength="80" required>
+      <button type="submit">Add</button>
+    </form>
+    <p id="form-error" class="form-error" role="status" aria-live="polite"></p>
+
+    <ul id="habit-list" class="habit-list"></ul>
+    <p id="empty-state" class="empty-state" hidden>No habits yet. Add one above to get started.</p>
+  </main>
+
+  <template id="habit-template">
+    <li class="habit">
+      <label class="habit-today">
+        <input type="checkbox" class="today-check">
+        <span class="habit-name"></span>
+      </label>
+      <div class="habit-meta">
+        <span class="streak"></span>
+        <span class="best"></span>
+      </div>
+      <div class="week" role="group"></div>
+      <button type="button" class="delete" aria-label="Delete habit">Delete</button>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
